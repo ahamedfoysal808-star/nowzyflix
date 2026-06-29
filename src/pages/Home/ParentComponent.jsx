@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Outlet, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { BiUpArrowAlt, BiHomeAlt, BiMoviePlay, BiTv, BiSearch, BiBookmark } from 'react-icons/bi';
+import { TrophyIcon } from '@heroicons/react/24/outline';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import { buildBrowsePath, getCategoryBySlug } from './urlFilters';
@@ -109,10 +110,17 @@ function ParentComponent() {
 
   const handleNavigation = (page) => {
     window.scrollTo({ top: 0, behavior: 'auto' });
-    if (page === 'home')        navigate('/');
-    else if (page === 'movies') navigate('/movies');
-    else if (page === 'series') navigate('/series');
-    else                        navigate(`/${page}`);
+    if (page === 'sports' || page === 'EXTERNAL_SPORTS') {
+      window.location.href = 'https://nowzyplus.live';
+    } else if (page === 'home') {
+      navigate('/');
+    } else if (page === 'movies') {
+      navigate('/movies');
+    } else if (page === 'series') {
+      navigate('/series');
+    } else {
+      navigate(`/${page}`);
+    }
   };
 
   const handleGenreSelect = (genreId) => {
@@ -122,7 +130,7 @@ function ParentComponent() {
   };
 
   return (
-    <div className="min-h-screen relative text-white">
+    <div className="min-h-screen relative text-white selection:bg-cyan-500/30">
       <Sidebar
         activePage={activePage}
         onNavigate={handleNavigation}
@@ -147,7 +155,7 @@ function ParentComponent() {
           <Outlet />
         </div>
 
-        {/* Global Footer — Now rendering across all routes cleanly */}
+        {/* Global Footer */}
         <footer className="bg-[#0a0c12] mt-auto">
           <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-600">
@@ -176,13 +184,14 @@ function ParentComponent() {
         </footer>
       </div>
 
-      {/* Mobile bottom navigation */}
+      {/* Mobile bottom navigation bar layout */}
       <nav className={`md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b14] border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.55)] items-center justify-around px-2 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] ${keyboardOpen ? 'hidden' : 'flex'}`}>
         {[
-          { id: 'home',       icon: BiHomeAlt,   label: 'Home'    },
-          { id: 'movies',     icon: BiMoviePlay, label: 'Movies'  },
-          { id: 'series',     icon: BiTv,        label: 'TV'      },
-          { id: 'search',     icon: BiSearch,    label: 'Search'  },
+          { id: 'home',       icon: BiHomeAlt,   label: 'Home'     },
+          { id: 'movies',     icon: BiMoviePlay, label: 'Movies'   },
+          { id: 'series',     icon: BiTv,        label: 'TV'       },
+          { id: 'sports',     icon: TrophyIcon,  label: 'Sports'   },
+          { id: 'search',     icon: BiSearch,    label: 'Search'   },
           { id: 'watchlist',  icon: BiBookmark,  label: 'Watchlist' },
         ].map(({ id, icon: Icon, label }) => {
           const isActive = activePage === id;
@@ -190,7 +199,7 @@ function ParentComponent() {
             <button
               key={id}
               onClick={() => handleNavigation(id)}
-              className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors ${
+              className={`flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-colors ${
                 isActive ? 'text-cyan-400' : 'text-gray-500 hover:text-gray-300'
               }`}
             >
@@ -199,27 +208,27 @@ function ParentComponent() {
             </button>
           );
         })}
-        {/* Mobile Profile/Auth Button */}
+        {/* Mobile Profile/Auth Button element */}
         {user ? (
           <button
             onClick={handleLogout}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-cyan-500/80 hover:text-cyan-400"
+            className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-colors text-cyan-500/80 hover:text-cyan-400"
           >
             <FaSignOutAlt className="text-2xl" />
-            <span className="text-[10px] font-medium font-bold uppercase tracking-wider">Log Out</span>
+            <span className="text-[10px] font-medium uppercase tracking-wider">Out</span>
           </button>
         ) : (
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-gray-500 hover:text-gray-300"
+            className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-xl transition-colors text-gray-500 hover:text-gray-300"
           >
             <FaUserCircle className="text-2xl" />
-            <span className="text-[10px] font-medium">Log In</span>
+            <span className="text-[10px] font-medium">In</span>
           </button>
         )}
       </nav>
 
-      {/* Auth Modal Form */}
+      {/* Auth Modal Form overlay */}
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </div>
   );
