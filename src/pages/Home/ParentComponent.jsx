@@ -68,9 +68,7 @@ function ParentComponent() {
     const handleBlur = (e) => {
       const tag = e.target.tagName?.toLowerCase();
       if (tag === 'input' || tag === 'textarea') {
-        // Delay closing slightly to prevent flicker if jumping between inputs
         timeoutId = setTimeout(() => {
-          // Double check if focus moved to another input
           const activeTag = document.activeElement?.tagName?.toLowerCase();
           if (activeTag !== 'input' && activeTag !== 'textarea') {
             setKeyboardOpen(false);
@@ -79,7 +77,6 @@ function ParentComponent() {
       }
     };
 
-    // Use capture phase for focus/blur as they are much more reliable than focusin/focusout bubbling on iOS PWAs
     document.addEventListener('focus', handleFocus, true);
     document.addEventListener('blur', handleBlur, true);
 
@@ -144,16 +141,18 @@ function ParentComponent() {
         </button>
       )}
 
-      {/* Page content */}
-      <div className="md:pl-[84px] pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
-        <Outlet />
+      {/* Page content wrapper */}
+      <div className="md:pl-[84px] pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0 flex flex-col min-h-screen">
+        <div className="flex-grow">
+          <Outlet />
+        </div>
 
-        {/* Footer — home page only */}
-        {location.pathname === '/' && <footer className="bg-[#0a0c12]">
+        {/* Global Footer — Now rendering across all routes cleanly */}
+        <footer className="bg-[#0a0c12] mt-auto">
           <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-600">
             <div className="flex items-center gap-3">
-              <span className="text-white font-black text-sm">Nowzy<span className="text-red-500">Flix</span></span>
+              <span className="text-white font-black text-sm">Nowzy<span className="text-cyan-400">Flix</span></span>
               <span>·</span>
               <span>Developed by <a href="https://nowzyplus.live" target="_blank" rel="noopener noreferrer" className="text-gray-400 font-semibold hover:text-white transition-colors">Nowzyplus</a></span>
             </div>
@@ -168,20 +167,23 @@ function ParentComponent() {
                   </a>
                 </span>
               </div>
-              <a href="//www.dmca.com/Protection/Status.aspx?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" title="DMCA.com Protection Status" className="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=204cd8cc-b62c-4f4a-aa8b-939824095655"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+              <a href="//www.dmca.com/Protection/Status.aspx?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" title="DMCA.com Protection Status" className="dmca-badge">
+                <img src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" alt="DMCA.com Protection Status" />
+              </a>
+              <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"></script>
             </div>
           </div>
-        </footer>}
+        </footer>
       </div>
 
       {/* Mobile bottom navigation */}
       <nav className={`md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b14] border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.55)] items-center justify-around px-2 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] ${keyboardOpen ? 'hidden' : 'flex'}`}>
         {[
           { id: 'home',       icon: BiHomeAlt,   label: 'Home'    },
-          { id: 'movies', icon: BiMoviePlay, label: 'Movies'  },
-          { id: 'series', icon: BiTv,        label: 'TV'      },
-          { id: 'search', icon: BiSearch,    label: 'Search'  },
-          { id: 'watchlist', icon: BiBookmark, label: 'Watchlist' },
+          { id: 'movies',     icon: BiMoviePlay, label: 'Movies'  },
+          { id: 'series',     icon: BiTv,        label: 'TV'      },
+          { id: 'search',     icon: BiSearch,    label: 'Search'  },
+          { id: 'watchlist',  icon: BiBookmark,  label: 'Watchlist' },
         ].map(({ id, icon: Icon, label }) => {
           const isActive = activePage === id;
           return (
@@ -189,7 +191,7 @@ function ParentComponent() {
               key={id}
               onClick={() => handleNavigation(id)}
               className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors ${
-                isActive ? 'text-red-400' : 'text-gray-500 hover:text-gray-300'
+                isActive ? 'text-cyan-400' : 'text-gray-500 hover:text-gray-300'
               }`}
             >
               <Icon className="text-2xl" />
@@ -201,7 +203,7 @@ function ParentComponent() {
         {user ? (
           <button
             onClick={handleLogout}
-            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-red-500/80 hover:text-red-400"
+            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-cyan-500/80 hover:text-cyan-400"
           >
             <FaSignOutAlt className="text-2xl" />
             <span className="text-[10px] font-medium font-bold uppercase tracking-wider">Log Out</span>
