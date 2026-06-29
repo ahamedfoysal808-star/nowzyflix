@@ -153,13 +153,13 @@ function ParentComponent() {
           <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-600">
             <div className="flex items-center gap-3">
-              <span className="text-white font-black text-sm">We<span className="text-red-500">Flix</span></span>
+              <span className="text-white font-black text-sm">Nowzy<span className="text-red-500">Flix</span></span>
               <span>·</span>
-              <span>Developed by <span className="text-gray-400 font-semibold">Phyo Min Thein</span></span>
+              <span>Developed by <a href="https://nowzyplus.live" target="_blank" rel="noopener noreferrer" className="text-gray-400 font-semibold hover:text-white transition-colors">Nowzyplus</a></span>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
-                <span>© {new Date().getFullYear()} WeFlix</span>
+                <span>© {new Date().getFullYear()} NowzyFlix</span>
                 <span>·</span>
                 <span>
                   Data by{' '}
@@ -168,7 +168,7 @@ function ParentComponent() {
                   </a>
                 </span>
               </div>
-              <a href="//www.dmca.com/Protection/Status.aspx?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=204cd8cc-b62c-4f4a-aa8b-939824095655"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+              <a href="//www.dmca.com/Protection/Status.aspx?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" title="DMCA.com Protection Status" className="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=204cd8cc-b62c-4f4a-aa8b-939824095655"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
             </div>
           </div>
         </footer>}
@@ -177,7 +177,7 @@ function ParentComponent() {
       {/* Mobile bottom navigation */}
       <nav className={`md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#070b14] border-t border-white/[0.08] shadow-[0_-10px_30px_rgba(0,0,0,0.55)] items-center justify-around px-2 pt-2 pb-[calc(env(safe-area-inset-bottom)+0.45rem)] ${keyboardOpen ? 'hidden' : 'flex'}`}>
         {[
-          { id: 'home',   icon: BiHomeAlt,   label: 'Home'    },
+          { id: 'home',       icon: BiHomeAlt,   label: 'Home'    },
           { id: 'movies', icon: BiMoviePlay, label: 'Movies'  },
           { id: 'series', icon: BiTv,        label: 'TV'      },
           { id: 'search', icon: BiSearch,    label: 'Search'  },
