@@ -1,14 +1,14 @@
 import { Helmet } from 'react-helmet-async';
 
-const SITE_NAME = 'WeFlix';
-const SITE_URL  = import.meta.env.VITE_SITE_URL || 'https://www.weflix.app';
-const DEFAULT_IMAGE = `${SITE_URL}/weflix2.png`;
+const SITE_NAME = 'NowzyFlix';
+const SITE_URL  = import.meta.env.VITE_SITE_URL || 'https://nowzyflix.pages.dev';
+const DEFAULT_IMAGE = 'https://nowzyplus.live/upload/files/1780682882236-removebg-preview__1___1_-removebg-preview.png?_t=1781771491';
 
 /**
  * Reusable SEO component.
  *
  * Props:
- *  title        – page title (appended with " | WeFlix" unless noSuffix)
+ *  title        – page title (appended with " | NowzyFlix" unless noSuffix)
  *  description  – meta description (max ~160 chars)
  *  image        – absolute OG image URL
  *  url          – canonical URL (defaults to current href)
@@ -33,8 +33,8 @@ export default function SEO({
     description ||
     'Discover and stream trending movies and TV shows. Browse by genre, search titles, and watch instantly — powered by TMDB.';
 
-  const metaImage  = image  || DEFAULT_IMAGE;
-  const canonical  = (() => {
+  const metaImage   = image  || DEFAULT_IMAGE;
+  const canonical   = (() => {
     const raw = url || (typeof window !== 'undefined' ? window.location.href : SITE_URL);
     try {
       const parsed = new URL(raw);
@@ -63,7 +63,7 @@ export default function SEO({
       <meta property="og:description" content={metaDescription} />
       <meta property="og:image"       content={metaImage} />
       <meta property="og:image:alt"   content={fullTitle} />
-      <meta property="og:url"         content={canonical} />
+      <meta property="og:url"          content={canonical} />
 
       {/* Twitter Card */}
       <meta name="twitter:card"        content="summary_large_image" />
