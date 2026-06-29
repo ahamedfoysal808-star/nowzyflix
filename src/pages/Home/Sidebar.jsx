@@ -78,7 +78,7 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
         <div className="flex items-center justify-center w-[56px] h-[56px] rounded-2xl bg-black/20 ring-1 ring-white/5 shrink-0 overflow-hidden">
           <img 
             src="https://nowzyplus.live/upload/files/1780682882236-removebg-preview__1___1_-removebg-preview.png?_t=1781771491" 
-            alt="NowzyFlix Clean Logo" 
+            alt="NowzyFlix Logo Icon" 
             className="w-full h-full object-contain p-1"
           />
         </div>
