@@ -71,20 +71,20 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
       select-none
     ">
 
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-red-500/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cyan-500/10 to-transparent pointer-events-none" />
 
       {/* Logo Wrapper */}
       <button onClick={() => onNavigate('home')} className="relative flex items-center gap-4 px-[14px] pt-8 pb-8 shrink-0 text-left hover:opacity-90 transition-opacity w-full">
-        <div className="flex items-center justify-center w-[56px] h-[56px] rounded-2xl bg-black/40 ring-1 ring-white/10 shrink-0 overflow-hidden">
+        <div className="flex items-center justify-center w-[56px] h-[56px] rounded-2xl bg-black/20 ring-1 ring-white/5 shrink-0 overflow-hidden">
           <img 
-            src="https://nowzyplus.live/upload/files/Picsart_26-06-18_14-22-01-874-Photoroom.png?_t=1781771298" 
-            alt="NowzyFlix Logo Icon" 
-            className="w-full h-full object-cover scale-110"
+            src="https://nowzyplus.live/upload/files/1780682882236-removebg-preview__1___1_-removebg-preview.png?_t=1781771491" 
+            alt="NowzyFlix Clean Logo" 
+            className="w-full h-full object-contain p-1"
           />
         </div>
         <div className="flex flex-col leading-tight whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100">
-          <span className="text-white font-black text-[20px] tracking-tight">Nowzy<span className="text-red-500">Flix</span></span>
-          <span className="text-red-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">Streaming</span>
+          <span className="text-white font-black text-[20px] tracking-tight">Nowzy<span className="text-cyan-400">Flix</span></span>
+          <span className="text-cyan-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">Streaming</span>
         </div>
       </button>
 
@@ -109,12 +109,12 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
                 w-full text-[14px] font-medium whitespace-nowrap
                 border-2 transition-colors duration-200 focus:outline-none
                 ${isActive
-                  ? 'border-red-500/35 bg-red-500/15 text-white shadow-sm shadow-red-950/30'
+                  ? 'border-cyan-500/35 bg-cyan-500/15 text-white shadow-sm shadow-cyan-950/30'
                   : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5 hover:border-transparent'
                 }
               `}
             >
-              <Icon className={`text-[24px] shrink-0 transition-colors duration-200 ${isActive ? 'text-red-400' : ''}`} />
+              <Icon className={`text-[24px] shrink-0 transition-colors duration-200 ${isActive ? 'text-cyan-400' : ''}`} />
               <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
                 {label}
               </span>
@@ -148,14 +148,14 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
                       w-full text-[13px] font-medium whitespace-nowrap
                       border-2 transition-colors duration-200 focus:outline-none text-left
                       ${isActiveGenre
-                        ? 'border-red-500/30 bg-red-500/15 text-white'
+                        ? 'border-cyan-500/30 bg-cyan-500/15 text-white'
                         : 'border-transparent text-gray-500 hover:text-gray-200 hover:bg-white/5 hover:border-transparent'
                       }
                     `}
                   >
                     <span className={`
                       w-2 h-2 rounded-full shrink-0 transition-all duration-200
-                      ${isActiveGenre ? 'bg-red-400' : 'bg-gray-700'}
+                      ${isActiveGenre ? 'bg-cyan-400' : 'bg-gray-700'}
                     `} />
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
                       {genre.name}
@@ -180,13 +180,13 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
             className="
               relative flex items-center gap-4 px-4 py-3.5 rounded-2xl
               w-full whitespace-nowrap
-              border-2 border-transparent text-gray-400 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-colors duration-200 focus:outline-none group/user
+              border-2 border-transparent text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/20 transition-colors duration-200 focus:outline-none group/user
             "
           >
             <FaSignOutAlt className="text-[24px] shrink-0" />
             <div className="flex flex-col text-left opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
               <span className="text-white line-clamp-1 text-[13px] font-bold">{user.displayName || user.email?.split('@')[0]}</span>
-              <span className="text-red-400 text-[10px] font-bold uppercase tracking-wider">Log Out</span>
+              <span className="text-cyan-400 text-[10px] font-bold uppercase tracking-wider">Log Out</span>
             </div>
           </button>
         ) : (
