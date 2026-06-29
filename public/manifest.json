@@ -1,14 +1,14 @@
 {
-  "name": "WeFlix",
-  "short_name": "WeFlix",
+  "name": "NowzyFlix",
+  "short_name": "NowzyFlix",
   "description": "Stream Movies & TV Shows Free",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#07080a",
+  "theme_color": "#07080a",
   "icons": [
     {
-      "src": "/weflix.svg",
+      "src": "/nowzyflix.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
