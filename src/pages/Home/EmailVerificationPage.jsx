@@ -33,14 +33,7 @@ export default function EmailVerificationPage() {
         // 2. Wait for Firebase to finish resolving the local session.
         await auth.authStateReady();
 
-        // 3. If they opened the link on the SAME device they registered on,
-        //    currentUser will be present — reload it to get the fresh emailVerified: true
-        //    token, then write it to Firestore immediately.
-        //
-        //    If they opened it on a DIFFERENT device (e.g. mobile after registering on Mac),
-        //    currentUser is null here. In that case we skip the Firestore write —
-        //    it will be done by saveUserToFirestore() the next time they log in on any device,
-        //    because signInWithEmailAndPassword always returns a fresh ID token from the server.
+        // 3. Update local session and write state parameters cleanly to Firestore database collections
         if (auth.currentUser) {
           await auth.currentUser.reload();
           const u = auth.currentUser;
@@ -62,22 +55,23 @@ export default function EmailVerificationPage() {
   }, [location.search]);
 
   return (
-    <div className="min-h-screen bg-[#07080a] flex items-center justify-center p-4">
-      <SEO title="Verify Email — WeFlix" noSuffix />
+    <div className="min-h-screen bg-[#07080a] flex items-center justify-center p-4 selection:bg-cyan-500/30">
+      <SEO title="Verify Email — NowzyFlix" noSuffix />
       
       <div className="w-full max-w-[400px] bg-[#0b0f19]/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl shadow-black p-8 text-center">
+        {/* Brand Header Display Wrapper Panel */}
         <div className="flex justify-center items-center gap-2 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-red-600/20 flex items-center justify-center">
-            <BiMoviePlay className="text-red-500 text-2xl" />
+          <div className="w-10 h-10 rounded-xl bg-cyan-600/20 flex items-center justify-center">
+            <BiMoviePlay className="text-cyan-400 text-2xl" />
           </div>
           <span className="text-2xl font-black text-white tracking-tight">
-            We<span className="text-red-500">Flix</span>
+            Nowzy<span className="text-cyan-400">Flix</span>
           </span>
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center gap-4 py-8">
-            <FaSpinner className="text-red-500 animate-spin text-4xl" />
+            <FaSpinner className="text-cyan-400 animate-spin text-4xl" />
             <p className="text-gray-400 font-medium mt-2">Verifying your email...</p>
           </div>
         ) : success ? (
@@ -91,7 +85,7 @@ export default function EmailVerificationPage() {
             </p>
             <Link
               to="/"
-              className="w-full py-3.5 flex justify-center items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-[0_0_20px_rgba(220,38,38,0.3)] transition-all"
+              className="w-full py-3.5 flex justify-center items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-xl shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all"
             >
               Go to Homepage
             </Link>
