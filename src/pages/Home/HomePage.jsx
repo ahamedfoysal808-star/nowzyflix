@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toDetailPath } from './urlUtils';
@@ -45,13 +46,13 @@ export default function HomePage() {
       className="bg-[#0a0c12] min-h-screen"
     >
       <SEO
-        title="WeFlix — Stream Movies & TV Shows"
-        description="Watch trending movies and TV shows for free. Browse by genre, discover new releases, and stream instantly on WeFlix — powered by TMDB."
+        title="NowzyFlix — Stream Movies & TV Shows"
+        description="Watch trending movies and TV shows for free. Browse by genre, discover new releases, and stream instantly on NowzyFlix — powered by TMDB."
         noSuffix
       />
       
-      {/* ── Visually Hidden H1 for SEO (Brand Keyword 'WeFlix') ── */}
-      <h1 className="sr-only">WeFlix - Free Movie & TV Show Streaming Platform</h1>
+      {/* ── Visually Hidden H1 for SEO (Brand Keyword 'NowzyFlix') ── */}
+      <h1 className="sr-only">NowzyFlix - Free Movie & TV Show Streaming Platform</h1>
 
       <HeroBanner />
 
@@ -64,7 +65,7 @@ export default function HomePage() {
           title="Trending Movies"
           type="movie"
           variant="trending"
-          accent="#ef4444"
+          accent="#06b6d4"
           onSelect={handleSelect}
           onSeeAll={goMovies}
         />
@@ -74,7 +75,7 @@ export default function HomePage() {
           variant="popular"
           showRank
           originalLanguage={['en', 'zh', 'ko', 'ja']}
-          accent="#ef4444"
+          accent="#06b6d4"
           onSelect={handleSelect}
           onSeeAll={goMovies}
         />
