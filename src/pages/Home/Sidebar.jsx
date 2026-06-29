@@ -1,221 +1,86 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BiSearch,
-  BiHomeAlt,
-  BiMoviePlay,
-  BiTv,
-  BiBookmark
-} from 'react-icons/bi';
-import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
-import { GENRES, SPECIAL_CATEGORIES } from './tmdb';
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { 
+  HomeIcon, 
+  FilmIcon, 
+  TvIcon, 
+  BookmarkIcon, 
+  UserIcon, 
+  MagnifyingGlassIcon,
+  TrophyIcon
+} from '@heroicons/react/24/outline';
 
-const NAV_ITEMS = [
-  { id: 'search', icon: BiSearch, action: 'navigate', label: 'Search' },
-  { id: 'home', icon: BiHomeAlt, action: 'navigate', label: 'Home' },
-  { id: 'movies', icon: BiMoviePlay, action: 'navigate', label: 'Movies' },
-  { id: 'series', icon: BiTv, action: 'navigate', label: 'TV Shows' },
-  { id: 'watchlist', icon: BiBookmark, action: 'navigate', label: 'Watchlist' },
-];
+const LOGO_IMAGE = 'https://nowzyplus.live/upload/files/1780682882236-removebg-preview__1___1_-removebg-preview.png?_t=1781771491';
 
-// Read cached auth flag from localStorage for instant render
-const getCachedUser = () => {
-  try { return JSON.parse(localStorage.getItem('nowzyflix_user')) ?? null; } catch { return null; }
-};
+export default function Sidebar() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpenAuthModal }) {
-  const [user, setUser] = useState(getCachedUser);
+  const navItems = [
+    { icon: HomeIcon, label: 'Home', path: '/' },
+    { icon: FilmIcon, label: 'Movies', path: '/movies' },
+    { icon: TvIcon, label: 'TV Shows', path: '/tv' },
+    { icon: TrophyIcon, label: 'Sports', path: 'EXTERNAL_SPORTS' }, // Handled as external redirect
+    { icon: BookmarkIcon, label: 'Watchlist', path: '/watchlist' },
+    { icon: UserIcon, label: 'Profile', path: '/profile' }
+  ];
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        const cached = { uid: currentUser.uid, displayName: currentUser.displayName, email: currentUser.email };
-        localStorage.setItem('nowzyflix_user', JSON.stringify(cached));
-      } else {
-        localStorage.removeItem('nowzyflix_user');
-      }
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('Logout error:', error);
+  const handleNavigation = (path) => {
+    if (path === 'EXTERNAL_SPORTS') {
+      window.location.href = 'https://nowzyplus.live';
+    } else {
+      navigate(path);
     }
   };
 
-  const ACTIVE_MAP = { search: 'search', movies: 'movies', series: 'series', watchlist: 'watchlist', home: 'home' };
-  const activeId = ACTIVE_MAP[activePage] ?? 'home';
-
-  const showCategories = activePage === 'movies' || activePage === 'series';
-  const genreType = activePage === 'movies' ? 'movie' : 'tv';
-  const allCategories = showCategories
-    ? [...GENRES[genreType], ...SPECIAL_CATEGORIES[genreType]].sort((a, b) => a.name.localeCompare(b.name))
-    : [];
-
   return (
-    <aside className="
-      group fixed top-0 left-0 h-full z-50
-      hidden md:flex flex-col
-      w-[84px] hover:w-[260px]
-      bg-gray-900/95 backdrop-blur-xl
-      border-r border-white/10
-      shadow-2xl shadow-black/30
-      overflow-hidden
-      transition-[width] duration-300 ease-in-out
-      select-none
-    ">
-
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cyan-500/10 to-transparent pointer-events-none" />
-
-      {/* Logo Wrapper */}
-      <button onClick={() => onNavigate('home')} className="relative flex items-center gap-4 px-[14px] pt-8 pb-8 shrink-0 text-left hover:opacity-90 transition-opacity w-full">
-        <div className="flex items-center justify-center w-[56px] h-[56px] rounded-2xl bg-black/20 ring-1 ring-white/5 shrink-0 overflow-hidden">
-          <img 
-            src="https://nowzyplus.live/upload/files/1780682882236-removebg-preview__1___1_-removebg-preview.png?_t=1781771491" 
-            alt="NowzyFlix Logo Icon" 
-            className="w-full h-full object-contain p-1"
-          />
+    <aside className="w-64 fixed inset-y-0 left-0 bg-[#070b14] border-r border-white/5 flex flex-col z-50">
+      {/* Brand Header Logo Panel */}
+      <div className="p-6 flex items-center gap-3 border-b border-white/5">
+        <div className="w-10 h-10 rounded-xl overflow-hidden bg-black/20 flex items-center justify-center">
+          <img src={LOGO_IMAGE} alt="NowzyFlix Logo" className="w-full h-full object-contain" />
         </div>
-        <div className="flex flex-col leading-tight whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100">
-          <span className="text-white font-black text-[20px] tracking-tight">Nowzy<span className="text-cyan-400">Flix</span></span>
-          <span className="text-cyan-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">Streaming</span>
+        <div>
+          <span className="text-lg font-black tracking-tight text-white block">Nowzy<span className="text-cyan-400">Flix</span></span>
+          <span className="text-[10px] tracking-widest text-gray-500 uppercase font-bold block mt-0.5">Streaming</span>
         </div>
-      </button>
-
-      {/* Nav section label */}
-      <div className="px-[18px] mb-1 shrink-0">
-        <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 text-[11px] font-bold tracking-[0.22em] uppercase text-gray-500 whitespace-nowrap">
-          Menu
-        </span>
       </div>
 
-      {/* Nav items */}
-      <nav className={`flex flex-col gap-1 px-[10px] ${showCategories ? 'shrink-0 pb-3' : 'flex-1 pb-6'}`}>
-        {NAV_ITEMS.map(({ id, icon: Icon, action, label }) => {
-          const isActive = activeId === id;
+      {/* Navigation Layout Links Panel */}
+      <nav className="flex-1 p-4 flex flex-col gap-1.5 overflow-y-auto">
+        {/* Search Deck Button */}
+        <button
+          onClick={() => navigate('/search')}
+          className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl border transition-all text-left mb-4 ${
+            location.pathname === '/search'
+              ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400'
+              : 'bg-white/5 border-white/5 text-gray-400 hover:bg-white/10'
+          }`}
+        >
+          <MagnifyingGlassIcon className="w-5 h-5" />
+          <span className="text-sm font-semibold">Search Catalog</span>
+        </button>
+
+        <span className="px-4 text-[10px] font-bold tracking-wider text-gray-500 uppercase mb-2 block">Menu Navigation</span>
+
+        {navItems.map((item, index) => {
+          const isActive = location.pathname === item.path;
           return (
             <button
-              key={id}
-              onClick={() => onNavigate(id)}
-              title={label}
-              className={`
-                relative flex items-center gap-4 px-4 py-3.5 rounded-2xl
-                w-full text-[14px] font-medium whitespace-nowrap
-                border-2 transition-colors duration-200 focus:outline-none
-                ${isActive
-                  ? 'border-cyan-500/35 bg-cyan-500/15 text-white shadow-sm shadow-cyan-950/30'
-                  : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5 hover:border-transparent'
-                }
-              `}
+              key={index}
+              onClick={() => handleNavigation(item.path)}
+              className={`w-full flex items-center gap-4 px-4 py-3.5 rounded-2xl font-semibold text-sm transition-all text-left ${
+                isActive
+                  ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400'
+                  : 'text-gray-400 hover:bg-white/5 border border-transparent'
+              }`}
             >
-              <Icon className={`text-[24px] shrink-0 transition-colors duration-200 ${isActive ? 'text-cyan-400' : ''}`} />
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
-                {label}
-              </span>
+              <item.icon className={`w-5 h-5 ${isActive ? 'text-cyan-400' : 'text-gray-400'}`} />
+              {item.label}
             </button>
           );
         })}
       </nav>
-
-      {/* Categories section — only on movies / series */}
-      {showCategories && (
-        <>
-          <div className="mx-[18px] h-px bg-gradient-to-r from-transparent via-white/10 to-transparent shrink-0" />
-          <div className="flex-1 flex flex-col min-h-0 pt-4 pb-4">
-            {/* Section label */}
-            <div className="px-[18px] mb-2 shrink-0">
-              <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 text-[11px] font-bold tracking-[0.22em] uppercase text-gray-500 whitespace-nowrap">
-                Genres
-              </span>
-            </div>
-            {/* Scrollable genre list */}
-            <div className="flex-1 overflow-y-auto hide-scrollbar px-[10px] pt-1 flex flex-col gap-0.5">
-              {allCategories.map((genre) => {
-                const isActiveGenre = selectedGenreId === genre.id;
-                return (
-                  <button
-                    key={genre.id}
-                    onClick={() => onGenreSelect && onGenreSelect(genre.id)}
-                    title={genre.name}
-                    className={`
-                      relative flex items-center gap-4 px-4 py-2.5 rounded-2xl
-                      w-full text-[13px] font-medium whitespace-nowrap
-                      border-2 transition-colors duration-200 focus:outline-none text-left
-                      ${isActiveGenre
-                        ? 'border-cyan-500/30 bg-cyan-500/15 text-white'
-                        : 'border-transparent text-gray-500 hover:text-gray-200 hover:bg-white/5 hover:border-transparent'
-                      }
-                    `}
-                  >
-                    <span className={`
-                      w-2 h-2 rounded-full shrink-0 transition-all duration-200
-                      ${isActiveGenre ? 'bg-cyan-400' : 'bg-gray-700'}
-                    `} />
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
-                      {genre.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Bottom spacer */}
-      {!showCategories && <div className="h-6 shrink-0" />}
-
-      {/* User profile / Logout */}
-      <div className="mt-auto pt-4 pb-6 px-[10px] shrink-0 border-t border-white/5 relative z-10 bg-gray-900/95">
-        {user ? (
-          <button
-            onClick={handleLogout}
-            title="Log Out"
-            className="
-              relative flex items-center gap-4 px-4 py-3.5 rounded-2xl
-              w-full whitespace-nowrap
-              border-2 border-transparent text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/20 transition-colors duration-200 focus:outline-none group/user
-            "
-          >
-            <FaSignOutAlt className="text-[24px] shrink-0" />
-            <div className="flex flex-col text-left opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75">
-              <span className="text-white line-clamp-1 text-[13px] font-bold">{user.displayName || user.email?.split('@')[0]}</span>
-              <span className="text-cyan-400 text-[10px] font-bold uppercase tracking-wider">Log Out</span>
-            </div>
-          </button>
-        ) : (
-          <button
-            onClick={onOpenAuthModal}
-            title="Log In"
-            className="
-              relative flex items-center gap-4 px-4 py-3.5 rounded-2xl
-              w-full text-[14px] font-medium whitespace-nowrap
-              border-2 border-transparent text-gray-400 hover:text-white hover:bg-white/5 hover:border-transparent transition-colors duration-200 focus:outline-none
-            "
-          >
-            <FaUserCircle className="text-[24px] shrink-0" />
-            <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 w-24 overflow-hidden">
-              Sign In
-            </span>
-          </button>
-        )}
-      </div>
     </aside>
   );
 }
-
-Sidebar.propTypes = {
-  activePage: PropTypes.string.isRequired,
-  onNavigate: PropTypes.func.isRequired,
-  selectedGenreId: PropTypes.number,
-  onGenreSelect: PropTypes.func,
-  onOpenAuthModal: PropTypes.func
-};
-
-export default React.memo(Sidebar);
