@@ -7,7 +7,7 @@ import {
   BiTv,
   BiBookmark
 } from 'react-icons/bi';
-import { FaPlay, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import { FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
 import { GENRES, SPECIAL_CATEGORIES } from './tmdb';
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase";
@@ -22,7 +22,7 @@ const NAV_ITEMS = [
 
 // Read cached auth flag from localStorage for instant render
 const getCachedUser = () => {
-  try { return JSON.parse(localStorage.getItem('weflix_user')) ?? null; } catch { return null; }
+  try { return JSON.parse(localStorage.getItem('nowzyflix_user')) ?? null; } catch { return null; }
 };
 
 function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpenAuthModal }) {
@@ -32,9 +32,9 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         const cached = { uid: currentUser.uid, displayName: currentUser.displayName, email: currentUser.email };
-        localStorage.setItem('weflix_user', JSON.stringify(cached));
+        localStorage.setItem('nowzyflix_user', JSON.stringify(cached));
       } else {
-        localStorage.removeItem('weflix_user');
+        localStorage.removeItem('nowzyflix_user');
       }
       setUser(currentUser);
     });
@@ -73,13 +73,17 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
 
       <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-red-500/10 to-transparent pointer-events-none" />
 
-      {/* Logo */}
-      <button onClick={() => onNavigate('home')} className="relative flex items-center gap-4 px-[18px] pt-8 pb-8 shrink-0 text-left hover:opacity-90 transition-opacity">
-        <div className="flex items-center justify-center w-[48px] h-[48px] rounded-2xl bg-gradient-to-br from-red-500 to-red-700 shadow-lg shadow-red-900/40 ring-1 ring-white/10 shrink-0">
-          <FaPlay className="text-white text-[15px] ml-0.5" />
+      {/* Logo Wrapper */}
+      <button onClick={() => onNavigate('home')} className="relative flex items-center gap-4 px-[14px] pt-8 pb-8 shrink-0 text-left hover:opacity-90 transition-opacity w-full">
+        <div className="flex items-center justify-center w-[56px] h-[56px] rounded-2xl bg-black/40 ring-1 ring-white/10 shrink-0 overflow-hidden">
+          <img 
+            src="https://nowzyplus.live/upload/files/Picsart_26-06-18_14-22-01-874-Photoroom.png?_t=1781771298" 
+            alt="NowzyFlix Logo Icon" 
+            className="w-full h-full object-cover scale-110"
+          />
         </div>
         <div className="flex flex-col leading-tight whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100">
-          <span className="text-white font-black text-[20px] tracking-tight">WeFlix</span>
+          <span className="text-white font-black text-[20px] tracking-tight">Nowzy<span className="text-red-500">Flix</span></span>
           <span className="text-red-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">Streaming</span>
         </div>
       </button>
