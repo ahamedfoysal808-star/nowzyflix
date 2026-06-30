@@ -14,18 +14,18 @@ import {
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 const FIREBASE_ERRORS = {
-  'auth/invalid-email':               'That email address doesn\'t look right.',
-  'auth/user-not-found':              'No account found with that email.',
-  'auth/wrong-password':              'Incorrect password. Please try again.',
-  'auth/invalid-credential':          'Email or password is incorrect.',
-  'auth/email-already-in-use':        'An account with this email already exists.',
-  'auth/weak-password':               'Password must be at least 6 characters.',
-  'auth/too-many-requests':           'Too many attempts. Please wait a moment and try again.',
-  'auth/network-request-failed':      'Network error. Please check your connection.',
-  'auth/popup-closed-by-user':        'Sign-in popup was closed. Please try again.',
-  'auth/cancelled-popup-request':     'Another sign-in popup is already open.',
-  'auth/popup-blocked':               'Popup was blocked by your browser. Please allow popups and try again.',
-  'auth/user-disabled':               'This account has been disabled. Contact support.',
+  'auth/invalid-email': 'That email address doesn\'t look right.',
+  'auth/user-not-found': 'No account found with that email.',
+  'auth/wrong-password': 'Incorrect password. Please try again.',
+  'auth/invalid-credential': 'Email or password is incorrect.',
+  'auth/email-already-in-use': 'An account with this email already exists.',
+  'auth/weak-password': 'Password must be at least 6 characters.',
+  'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.',
+  'auth/network-request-failed': 'Network error. Please check your connection.',
+  'auth/popup-closed-by-user': 'Sign-in popup was closed. Please try again.',
+  'auth/cancelled-popup-request': 'Another sign-in popup is already open.',
+  'auth/popup-blocked': 'Popup was blocked by your browser. Please allow popups and try again.',
+  'auth/user-disabled': 'This account has been disabled. Contact support.',
 };
 
 const getFirebaseError = (err) => {
